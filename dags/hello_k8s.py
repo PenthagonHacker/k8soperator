@@ -7,8 +7,8 @@ def hello():
 
 with DAG(
     dag_id="hello_k8s",
-    start_date=datetime(2024, 1, 1),
-    schedule_interval=None,
+    start_date=datetime(2026, 4, 30),
+    schedule=None,
     catchup=False,
 ) as dag:
 
