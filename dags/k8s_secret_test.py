@@ -18,7 +18,7 @@ with DAG(
         cmds=["python", "-c"],
         arguments=[
             "import os; "
-            "print('SECRET VALUE:', os.getenv('MY_API_KEY'))"
+            "print('SECRET VALUE:', os.getenv('MY_API_KEY'))"  # в проде так, разумеется делать не разрешается! сделано просто для примера работы секретов кубера.
         ],
         env_vars=[
             V1EnvVar(
