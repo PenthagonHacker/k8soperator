@@ -61,6 +61,10 @@ Kubernetes берёт значение из Secret:
 ```
 MY_API_KEY=actual_secret_value
 ```
+  (Создание секрета:
+  `kubectl get secrets -n airflow`
+  Проверка:
+  `kubectl describe secret demo-secret -n airflow`)
 
 ## 6. Запуск команды внутри контейнера
 Контейнер выполняет команду Python:
