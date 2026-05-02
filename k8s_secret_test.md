@@ -1,7 +1,36 @@
-# KubernetesPodOperator — DAG с Secret Injection (объяснение)
+# KubernetesPodOperator — DAG с использованием "секрета".
+
+## Полный пример оператора
+
+```python
+KubernetesPodOperator(
+        task_id="read_secret",
+        name="secret-test-pod",
+        namespace="airflow",
+        image="python:3.11-slim",
+        cmds=["python", "-c"],
+        arguments=[
+            "import os; "
+            "print('SECRET VALUE:', os.getenv('MY_API_KEY'))"  # (ТОЛЬКО В ДЕМОНСТРАЦИОННЫХ ЦЕЛЯХ. В ПРОДЕ ТАК НЕ ДЕЛАТЬ!)
+        ],
+        env_vars=[
+            V1EnvVar(
+                name="MY_API_KEY",
+                value_from=V1EnvVarSource(
+                    secret_key_ref=V1SecretKeySelector(
+                        name="demo-secret",
+                        key="MY_API_KEY",
+                    )
+                ),
+            )
+        ],
+        get_logs=True,
+        is_delete_operator_pod=False,
+    )
+```
 
 ## 📌 Что делает этот DAG
-Этот DAG в Apache Airflow проверяет работу KubernetesPodOperator с использованием Kubernetes Secret. Он запускает pod в Kubernetes и передаёт секретное значение внутрь контейнера как переменную окружения.
+Даг демонстрирует работу KubernetesPodOperator с использованием Kubernetes Secret. Он запускает pod в Kubernetes и передаёт "секрет" в контейнер как переменную окружения.
 
 ---
 
@@ -11,13 +40,13 @@
 Airflow Scheduler видит задачу и отправляет её на выполнение.
 
 ## 2. KubernetesPodOperator создаёт Pod
-Operator формирует описание pod (PodSpec) и отправляет его в Kubernetes API.
+Оператор формирует описание pod (PodSpec) и отправляет его в Kubernetes API.
 
 ## 3. Kubernetes создаёт Pod
 Pod появляется в namespace `airflow` в состоянии Pending → Running.
 
 ## 4. Kubernetes подготавливает контейнер
-- скачивается Docker image (если нужно)
+- скачивается Docker image
 - создаётся runtime среда
 - монтируются переменные окружения
 
@@ -37,7 +66,7 @@ MY_API_KEY=actual_secret_value
 Контейнер выполняет команду Python:
 
 ```
-python -c "print(os.getenv('MY_API_KEY'))"
+python -c "print(os.getenv('MY_API_KEY'))"    (ТОЛЬКО В ДЕМОНСТРАЦИОННЫХ ЦЕЛЯХ. В ПРОДЕ ТАК НЕ ДЕЛАТЬ!)
 ```
 
 ## 7. Логи отправляются в Airflow
@@ -67,51 +96,12 @@ V1EnvVar(
 
 ## Что это значит простыми словами:
 
-👉 Создай переменную окружения `MY_API_KEY`
-👉 Не задавай её вручную
-👉 Возьми значение из Kubernetes Secret `demo-secret`
-👉 Используй ключ `MY_API_KEY` внутри этого Secret
+- Создай переменную окружения `MY_API_KEY`
+- Не задавай её вручную
+- Возьми значение из Kubernetes Secret `demo-secret`
+- Используй ключ `MY_API_KEY` внутри этого Secret
 
 ---
-
-# 🧠 Важная идея
 
 Airflow НЕ хранит секрет.
 Kubernetes НЕ хранит секрет в коде.
-
-👉 Секрет живёт отдельно и "вкалывается" в pod только при запуске.
-
----
-
-# 🔍 Что можно наблюдать в реальности
-
-## Через Airflow UI:
-- статус task
-- логи выполнения
-
-## Через Kubernetes:
-```bash
-kubectl get pods -n airflow
-kubectl logs <pod>
-```
-
----
-
-# 🎯 Итог
-
-Этот DAG демонстрирует:
-- создание Kubernetes pod из Airflow
-- безопасную передачу секретов
-- выполнение кода внутри контейнера
-- сбор логов обратно в Airflow
-
----
-
-# 🚀 Следующий шаг (рекомендуется)
-
-Можно расширить этот DAG и проверить:
-- mount Secret как файл (`/etc/secrets/...`)
-- multiple secrets injection
-- RBAC permissions for secrets access
-- shared volumes between pods
-
