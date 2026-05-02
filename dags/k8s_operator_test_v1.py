@@ -14,7 +14,6 @@ with DAG(
         name="k8s-test-pod",
         namespace="airflow",
 
-        # use public image (no registry headaches)
         image="python:3.11-slim",
 
         cmds=["python", "-c"],
@@ -22,4 +21,15 @@ with DAG(
 
         get_logs=True,
         is_delete_operator_pod=True,
+
+        container_resources={
+            "requests": {
+                "cpu": "250m",
+                "memory": "256Mi",
+            },
+            "limits": {
+                "cpu": "500m",
+                "memory": "512Mi",
+            },
+        },        
     )
