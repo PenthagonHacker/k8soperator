@@ -49,13 +49,18 @@ KubernetesPodOperator(
 
 **Как работает:**
 - Kubernetes добавляет случайный суффикс:
-  ```
+```bash
 k8s-test-pod-<random>
 ```
 
 **Где видно:**
 ```bash
 kubectl get pods -n airflow
+```
+
+**Более подробная информация для дебага:**
+```bash
+kubectl describe pod <pod-name> -n airflow
 ```
 
 **Зачем нужно:**
