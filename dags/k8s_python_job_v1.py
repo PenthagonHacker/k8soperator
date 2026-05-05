@@ -13,7 +13,7 @@ with DAG(
         task_id="run_python_script",
         name="run-python-script",
         namespace="airflow",
-        image="my-python-job:latest",
+        image="rtlabsipr/my-python-job:latest",
         cmds=["python", "script.py"],
         get_logs=True,
         is_delete_operator_pod=True,
