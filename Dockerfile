@@ -5,6 +5,6 @@ ENV PYTHONUNBUFFERED=1
 
 WORKDIR /app
 
-COPY script.py .
+COPY Emulate_k8s_logs.py .
 
-CMD ["python", "script.py"]
+CMD ["python", "Emulate_k8s_logs.py"]
