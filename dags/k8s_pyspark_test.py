@@ -19,7 +19,7 @@ with DAG(
         namespace="airflow",
         name="pyspark-job",
         task_id="run_pyspark",
-        image="bitnami/spark:3.5",
+        image="octoenergy/pyspark:3.5.2",
         cmds=["bash", "-c"],
         arguments=[
             """
