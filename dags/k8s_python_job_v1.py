@@ -14,7 +14,7 @@ with DAG(
         name="run-python-script",
         namespace="airflow",
         image="rtlabsipr/my-python-job:latest",
-        cmds=["python", "script.py"],
+        cmds=["python", "Emulate_k8s_logs.py"],
         get_logs=True,
         is_delete_operator_pod=True,
     )
