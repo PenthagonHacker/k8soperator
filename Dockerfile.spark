@@ -1,5 +1,8 @@
 FROM apache/spark:3.5.2
 
+ENV SPARK_HOME=/opt/spark
+ENV PATH=$SPARK_HOME/bin:$PATH
+
 WORKDIR /app
 
 COPY sparksubmitjob.py /app/
