@@ -21,7 +21,7 @@ with DAG(
         cmds=["spark-submit"],
         arguments=[
             "--master",
-            "local[*]",
+            "local[2]",
             "--driver-memory",
             "1g",
             "--executor-memory",
