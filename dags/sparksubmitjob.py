@@ -1,18 +1,22 @@
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import col, upper, length
 
-# ----------------------------------------------------
-# Create SparkSession
-# ----------------------------------------------------
+def log(message):
+print("=" * 60, flush=True)
+print(message, flush=True)
+print("=" * 60, flush=True)
+
 spark = (
-    SparkSession.builder
-    .appName("Airflow SparkSubmit Demo")
-    .getOrCreate()
+SparkSession.builder
+.appName("Airflow SparkSubmit Demo")
+.getOrCreate()
 )
 
-print("=" * 60)
-print("Spark application started")
-print("=" * 60)
+try:
+log("Spark application started")
+
+```
+print(f"Spark version: {spark.version}", flush=True)
 
 # ----------------------------------------------------
 # Sample data
@@ -35,11 +39,13 @@ columns = [
 
 df = spark.createDataFrame(data, columns)
 
-print("\nOriginal Data")
-df.show()
+print("\nOriginal Data", flush=True)
+df.show(truncate=False)
+
+print(f"Input row count: {df.count()}", flush=True)
 
 # ----------------------------------------------------
-# Simple transformations
+# Transformations
 # ----------------------------------------------------
 
 result = (
@@ -48,8 +54,8 @@ result = (
     .withColumn("NAME_LENGTH", length(col("name")))
 )
 
-print("\nTransformed Data")
-result.show()
+print("\nTransformed Data", flush=True)
+result.show(truncate=False)
 
 # ----------------------------------------------------
 # Aggregation
@@ -57,19 +63,24 @@ result.show()
 
 summary = (
     df.groupBy("department")
-      .avg("salary")
-      .orderBy("department")
+    .avg("salary")
+    .orderBy("department")
 )
 
-print("\nAverage salary by department")
-summary.show()
+print("\nAverage salary by department", flush=True)
+summary.show(truncate=False)
 
 # ----------------------------------------------------
-# Count rows
+# Final validation
 # ----------------------------------------------------
 
-print(f"\nTotal rows: {df.count()}")
+total_rows = result.count()
 
-print("\nSpark job finished successfully.")
+print(f"\nFinal processed rows: {total_rows}", flush=True)
 
+log("Spark job finished successfully")
+```
+
+finally:
 spark.stop()
+print("Spark session stopped", flush=True)
