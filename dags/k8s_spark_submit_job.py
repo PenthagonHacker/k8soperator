@@ -20,7 +20,7 @@ with DAG(
         image="rtlabsipr/pyspark-submit-demo:1.0",
         cmds=["spark-submit"],
         arguments=[
-            "/app/job.py",
+            "/app/sparksubmitjob.py",
         ],
         container_resources=k8s.V1ResourceRequirements(
             requests={
