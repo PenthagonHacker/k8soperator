@@ -17,7 +17,6 @@ with DAG(
         task_id="spark_submit",
         name="spark-submit-demo",
         namespace="pd-airflow-prod",
-        config_file="/home/airflow/.kube/config",
         image="rtlabsipr/pyspark-submit-demo:1.0",
         cmds=["spark-submit"],
         arguments=[
