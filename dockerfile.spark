@@ -1,0 +1,7 @@
+FROM octoenergy/pyspark:3.5.2
+
+WORKDIR /app
+
+COPY job.py .
+
+CMD ["bash"]
