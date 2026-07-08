@@ -39,7 +39,8 @@ with DAG(
             "--conf",
             "spark.kubernetes.namespace=airflow",            
             "/app/sparksubmitjob.py",
-        ],        
+        ],
+        service_account_name="spark",        
         container_resources=k8s.V1ResourceRequirements(
             requests={
                 "cpu": "2",
