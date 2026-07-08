@@ -1,7 +1,5 @@
-FROM octoenergy/pyspark:3.5.2
+FROM apache/spark:3.5.2
 
 WORKDIR /app
 
-COPY sparksubmitjob.py .
-
-CMD ["bash"]
+COPY sparksubmitjob.py /app/
