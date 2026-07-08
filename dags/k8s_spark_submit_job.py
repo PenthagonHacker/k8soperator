@@ -33,7 +33,7 @@ with DAG(
             "--conf",
             "spark.app.name=AirflowSparkDemo",
             "--conf",
-            "spark.kubernetes.container.image=rtlabsipr/pyspark-submit-demo:1.0",
+            "spark.kubernetes.container.image=apache/spark:3.5.2",
             "--conf",
             "spark.kubernetes.authenticate.driver.serviceAccountName=spark",
             "--conf",
