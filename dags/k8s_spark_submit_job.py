@@ -9,7 +9,7 @@ from kubernetes.client import models as k8s
 with DAG(
     dag_id="k8s_spark_submit_demo",
     start_date=datetime(2026, 7, 7),
-    schedule_interval=None,
+    schedule=None,
     catchup=False,
 ) as dag:
 
