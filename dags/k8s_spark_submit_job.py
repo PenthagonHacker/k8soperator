@@ -18,7 +18,7 @@ with DAG(
         name="spark-submit-demo",
         namespace="airflow",
 
-        image="rtlabsipr/pyspark-submit-demo:2.0",
+        image="rtlabsipr/pyspark-submit-demo:3.0",
 
         cmds=[
             "spark-submit"
@@ -50,7 +50,7 @@ with DAG(
             "spark.kubernetes.namespace=airflow",
 
             "--conf",
-            "spark.kubernetes.container.image=rtlabsipr/pyspark-submit-demo:2.0",
+            "spark.kubernetes.container.image=rtlabsipr/pyspark-submit-demo:3.0",
 
             "--conf",
             "spark.kubernetes.authenticate.driver.serviceAccountName=spark",
