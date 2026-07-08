@@ -35,7 +35,9 @@ with DAG(
             "--conf",
             "spark.kubernetes.container.image=rtlabsipr/pyspark-submit-demo:1.0",
             "--conf",
-            "spark.kubernetes.authenticate.driver.serviceAccountName=spark",            
+            "spark.kubernetes.authenticate.driver.serviceAccountName=spark",
+            "--conf",
+            "spark.kubernetes.namespace=airflow",            
             "/app/sparksubmitjob.py",
         ],        
         container_resources=k8s.V1ResourceRequirements(
