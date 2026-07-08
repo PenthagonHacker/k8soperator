@@ -33,7 +33,7 @@ with DAG(
             "--conf",
             "spark.app.name=AirflowSparkDemo",
             "/app/sparksubmitjob.py",
-        ]        
+        ],        
         container_resources=k8s.V1ResourceRequirements(
             requests={
                 "cpu": "2",
