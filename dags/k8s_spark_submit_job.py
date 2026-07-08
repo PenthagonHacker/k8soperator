@@ -21,7 +21,7 @@ with DAG(
         cmds=["spark-submit"],
         arguments=[
             "--master",
-            "local[2]",
+            "k8s://https://kubernetes.default.svc:443",
             "--driver-memory",
             "1g",
             "--executor-memory",
