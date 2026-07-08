@@ -55,7 +55,7 @@ with DAG(
             "--conf",
             "spark.kubernetes.authenticate.driver.serviceAccountName=spark",
 
-            "/app/sparksubmitjob.py",
+            "local:///app/sparksubmitjob.py",
         ],
 
         service_account_name="spark",
