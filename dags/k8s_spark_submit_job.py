@@ -20,16 +20,28 @@ with DAG(
         image="rtlabsipr/pyspark-submit-demo:1.0",
         cmds=["spark-submit"],
         arguments=[
+            "--master",
+            "local[*]",
+            "--driver-memory",
+            "1g",
+            "--executor-memory",
+            "1g",
+            "--executor-cores",
+            "2",
+            "--conf",
+            "spark.sql.shuffle.partitions=4",
+            "--conf",
+            "spark.app.name=AirflowSparkDemo",
             "/app/sparksubmitjob.py",
-        ],
+        ]        
         container_resources=k8s.V1ResourceRequirements(
             requests={
-                "cpu": "500m",
-                "memory": "512Mi",
+                "cpu": "2",
+                "memory": "2Gi",
             },
             limits={
-                "cpu": "1",
-                "memory": "1Gi",
+                "cpu": "2",
+                "memory": "2Gi",
             },
         ),
         get_logs=True,
