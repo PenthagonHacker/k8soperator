@@ -17,30 +17,49 @@ with DAG(
         task_id="spark_submit",
         name="spark-submit-demo",
         namespace="airflow",
-        image="rtlabsipr/pyspark-submit-demo:1.0",
-        cmds=["spark-submit"],
+
+        image="rtlabsipr/pyspark-submit-demo:1.1",
+
+        cmds=[
+            "spark-submit"
+        ],
+
         arguments=[
             "--master",
             "k8s://https://kubernetes.default.svc:443",
+
+            "--deploy-mode",
+            "cluster",
+
+            "--name",
+            "airflow-spark-demo",
+
             "--driver-memory",
             "1g",
+
             "--executor-memory",
             "1g",
+
             "--executor-cores",
             "2",
+
             "--conf",
             "spark.sql.shuffle.partitions=4",
+
             "--conf",
-            "spark.app.name=AirflowSparkDemo",
+            "spark.kubernetes.namespace=airflow",
+
             "--conf",
-            "spark.kubernetes.container.image=apache/spark:3.5.2",
+            "spark.kubernetes.container.image=rtlabsipr/pyspark-submit-demo:1.1",
+
             "--conf",
             "spark.kubernetes.authenticate.driver.serviceAccountName=spark",
-            "--conf",
-            "spark.kubernetes.namespace=airflow",            
+
             "/app/sparksubmitjob.py",
         ],
-        service_account_name="spark",        
+
+        service_account_name="spark",
+
         container_resources=k8s.V1ResourceRequirements(
             requests={
                 "cpu": "2",
@@ -51,6 +70,8 @@ with DAG(
                 "memory": "2Gi",
             },
         ),
+
         get_logs=True,
+
         is_delete_operator_pod=True,
     )
