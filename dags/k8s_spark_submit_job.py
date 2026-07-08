@@ -16,7 +16,7 @@ with DAG(
     spark_submit = KubernetesPodOperator(
         task_id="spark_submit",
         name="spark-submit-demo",
-        namespace="pd-airflow-prod",
+        namespace="airflow",
         image="rtlabsipr/pyspark-submit-demo:1.0",
         cmds=["spark-submit"],
         arguments=[
